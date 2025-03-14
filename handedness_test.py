@@ -16,11 +16,11 @@ handedness_model_path = "hand_landmarker.task"
 # Initialize the Gesture Recognizer
 options = GestureRecognizerOptions(
     base_options=BaseOptions(model_asset_path=model_path),
-    num_hands=1
+    num_hands=2
 )
 handedness_options = HandLandmarkerOptions(
     base_options=BaseOptions(model_asset_path=handedness_model_path),
-    num_hands=1
+    num_hands=2
 )
 gesture_recognizer = GestureRecognizer.create_from_options(options)
 handedness_recognizer = HandLandmarker.create_from_options(handedness_options)
@@ -48,10 +48,51 @@ def main():
 
         # Draw the gesture recognition results on the image
         if result.gestures:
-            recognized_gesture = result.gestures[0][0].category_name
-            confidence = result.gestures[0][0].score
+            #print(result.gestures)
+            recognized_gesture_1 = result.gestures[0][0].category_name
+            confidence_1 = result.gestures[0][0].score
+
+            
+
+            if handedness_result.handedness:
+                perceived_handedness = handedness_result.handedness[0][0].category_name
+                if perceived_handedness == "Left":
+                    cv2.putText(image, f"Gesture: {recognized_gesture_1} ({confidence_1:.2f})", 
+                            (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                    # Display recognized gesture and confidence 
+                    cv2.putText(image, f"Handedness: {perceived_handedness}", 
+                                (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                elif perceived_handedness == "Right":
+                    cv2.putText(image, f"Gesture: {recognized_gesture_1} ({confidence_1:.2f})", 
+                            (1000, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                    # Display recognized gesture and confidence 
+                    cv2.putText(image, f"Handedness: {perceived_handedness}", 
+                                (1000, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            
+
+            if len(result.gestures) > 1:
+                recognized_gesture_2 = result.gestures[1][0].category_name
+                confidence_2 = result.gestures[1][0].score
+
+                
+
+                if handedness_result.handedness:
+                    perceived_handedness = handedness_result.handedness[1][0].category_name
+                    if perceived_handedness == "Left":
+                        cv2.putText(image, f"Gesture: {recognized_gesture_2} ({confidence_2:.2f})", 
+                                (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                        # Display recognized gesture and confidence 
+                        cv2.putText(image, f"Handedness: {perceived_handedness}", 
+                                    (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                    elif perceived_handedness == "Right":
+                        cv2.putText(image, f"Gesture: {recognized_gesture_2} ({confidence_1:.2f})", 
+                                (1000, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                        # Display recognized gesture and confidence 
+                        cv2.putText(image, f"Handedness: {perceived_handedness}", 
+                                    (1000, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
             # Example of pressing keys with pyautogui based on recognized gesture
+            '''
             if recognized_gesture == "Thumb_Up":
                 pyautogui.press("w")
             elif recognized_gesture == "Thumb_Down":
@@ -62,17 +103,10 @@ def main():
                 pyautogui.press("d")
             elif recognized_gesture == "Victory":
                 pyautogui.press("space")
+            '''
 
             # Display recognized gesture and confidence 
-            cv2.putText(image, f"Gesture: {recognized_gesture} ({confidence:.2f})", 
-                        (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
-        
-        if handedness_result.handedness:
-            perceived_handedness = handedness_result.handedness[0][0].category_name
-
-            # Display recognized gesture and confidence 
-            cv2.putText(image, f"Handedness: {perceived_handedness}", 
-                        (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            
             
 
         # Display the resulting image (can comment this out for better performance later on)
