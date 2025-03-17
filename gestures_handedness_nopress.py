@@ -96,12 +96,6 @@ def main():
 
     left_count = 5
     right_count = 5
-    w = False
-    a = False
-    d = False
-    up = False
-    left = False
-    right = False
 
     with mp_hands.Hands(
         static_image_mode=False,
@@ -121,27 +115,18 @@ def main():
             if left_count > 0:
                 left_count -= 1
                 if left_count == 0:
-                    if w:
-                        pyautogui.keyUp("w")
-                        w = False
-                    if a:
-                        pyautogui.keyUp("a")
-                        a = False
-                    if d:
-                        pyautogui.keyUp("d")
-                        d = False
+                    
+                    pyautogui.keyUp("w")
+                    pyautogui.keyUp("a")
+                    pyautogui.keyUp("d")
             if right_count > 0:
                 right_count -= 1
                 if right_count == 0:
-                    if up:
-                        pyautogui.keyUp("up")
-                        up = False
-                    if left:
-                        pyautogui.keyUp("left")
-                        left = False
-                    if right:
-                        pyautogui.keyUp("right")
-                        right = False
+                
+                    pyautogui.keyUp("up")
+                    pyautogui.keyUp("left")
+                    pyautogui.keyUp("right")
+
 
             # Flip the image horizontally and convert the BGR image to RGB.
             old_image = image
@@ -200,136 +185,78 @@ def main():
 
                             # # Press appropriate keys with pyautugui based on recognized gesture.
                             if gesture == "Jump":
-                                if a:
-                                    pyautogui.keyUp("a")
-                                    a = False
-                                if d:
-                                    pyautogui.keyUp("d")
-                                    d = False
+                                None
+                                #pyautogui.keyUp("a")
+                                #pyautogui.keyUp("d")
 
-                                if not w:
-                                    pyautogui.keyDown("w")
-                                    w = True
+                                #pyautogui.keyDown("w")
                             elif gesture == "Jump-Left":
-                                if d:
-                                    pyautogui.keyUp("d")
-                                    d = False
+                                None
+                                #pyautogui.keyUp("d")
 
-                                if not w:
-                                    pyautogui.keyDown("w")
-                                    w = True
-                                if not a:
-                                    pyautogui.keyDown("a")
-                                    a = True
+                                #pyautogui.keyDown("w")
+                                #pyautogui.keyDown("a")
                             elif gesture == "Jump-Right":
-                                if a:
-                                    pyautogui.keyUp("a")
-                                    a = False
+                                None
+                                #pyautogui.keyUp("a")
                                 
-                                if not w:
-                                    pyautogui.keyDown("w")
-                                    w = True
-                                if not d:
-                                    pyautogui.keyDown("d")
-                                    d = True
+                                #pyautogui.keyDown("w")
+                                #pyautogui.keyDown("d")
                             elif gesture == "Move-Right":
-                                if w:
-                                    pyautogui.keyUp("w")
-                                    w = False
-                                if a:
-                                    pyautogui.keyUp("a")
-                                    a = False
+                                None
+                                #pyautogui.keyUp("w")
+                                #pyautogui.keyUp("a")
 
-                                if not d:
-                                    pyautogui.keyDown("d")
-                                    d = True
+                                #pyautogui.keyDown("d")
                             elif gesture == "Move-Left":
-                                if w:
-                                    pyautogui.keyUp("w")
-                                    w = False
-                                if d:
-                                    pyautogui.keyUp("d")
-                                    d = False
+                                None
+                                #pyautogui.keyUp("w")
+                                #pyautogui.keyUp("d")
 
-                                if not a:
-                                    pyautogui.keyDown("a")
-                                    a = True
+                                #pyautogui.keyDown("a")
                             else:
-                                if w:
-                                    pyautogui.keyUp("w")
-                                    w = False
-                                if a:
-                                    pyautogui.keyUp("a")
-                                    a = False
-                                if d:
-                                    pyautogui.keyUp("d")
-                                    d = False
+                                None
+                                #pyautogui.keyUp("w")
+                                #pyautogui.keyUp("a")
+                                #pyautogui.keyUp("d")
 
                         else: #real_handedness == right
                             right_count = 5
                             if gesture == "Jump":
-                                if left:
-                                    pyautogui.keyUp("left")
-                                    left = False
-                                if right:
-                                    pyautogui.keyUp("right")
-                                    right = False
+                                None
+                                #pyautogui.keyUp("left")
+                                #pyautogui.keyUp("right")
 
-                                if not up:
-                                    pyautogui.keyDown("up")
-                                    up = True
+                                #pyautogui.keyDown("up")
                             elif gesture == "Jump-Left":
-                                if right:
-                                    pyautogui.keyUp("right")
-                                    right = False
+                                None
+                                #pyautogui.keyUp("right")
 
-                                if not up:
-                                    pyautogui.keyDown("up")
-                                    up = True
-                                if not left:
-                                    pyautogui.keyDown("left")
-                                    left = True
+                                #pyautogui.keyDown("up")
+                                #pyautogui.keyDown("left")
                             elif gesture == "Jump-Right":
-                                if left:
-                                    pyautogui.keyUp("left")
-                                    left = False
+                                None
+                                #pyautogui.keyUp("left")
                                 
-                                if not up:
-                                    pyautogui.keyDown("up")
-                                    up = True
-                                if not right:
-                                    pyautogui.keyDown("right")
-                                    right = True
+                                #pyautogui.keyDown("up")
+                                #pyautogui.keyDown("right")
                             elif gesture == "Move-Right":
-                                if up:
-                                    pyautogui.keyUp("up")
-                                    up = False
-                                if left:
-                                    pyautogui.keyUp("left")
-                                    left = False
+                                None
+                                #pyautogui.keyUp("up")
+                                #pyautogui.keyUp("left")
 
-                                if not right:
-                                    pyautogui.keyDown("right")
-                                    right = True
+                                #pyautogui.keyDown("right")
                             elif gesture == "Move-Left":
-                                if up:
-                                    pyautogui.keyUp("up")
-                                    up = False
-                                pyautogui.keyUp("right")
+                                None
+                                #pyautogui.keyUp("up")
+                                #pyautogui.keyUp("right")
 
-                                if not left:
-                                    pyautogui.keyDown("left")
-                                    left = True
+                                #pyautogui.keyDown("left")
                             else:
-                                if up:
-                                    pyautogui.keyUp("up")
-                                    up = False
-                                if left:
-                                    pyautogui.keyUp("left")
-                                    left = False
-                                if right:
-                                    pyautogui.keyUp("right")
-                                    right = False
+                                None
+                                #pyautogui.keyUp("up")
+                                #pyautogui.keyUp("left")
+                                #pyautogui.keyUp("right")
                     
 
                     # Display gesture near hand location
