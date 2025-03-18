@@ -52,7 +52,6 @@ def main():
             recognized_gesture_1 = result.gestures[0][0].category_name
             confidence_1 = result.gestures[0][0].score
 
-            print(handedness_result)
 
             if handedness_result.handedness:
                 perceived_handedness = handedness_result.handedness[0][0].category_name

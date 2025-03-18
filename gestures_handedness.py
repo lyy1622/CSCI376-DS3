@@ -38,6 +38,9 @@ def recognize(hand_landmarks):
 
     index_tip = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
     index_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_MCP]
+
+    pinky_tip = hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_TIP]
+    pinky_mcp = hand_landmarks.landmark[mp_hands.HandLandmark.PINKY_MCP]
     
 
     # Calculate distances
@@ -49,6 +52,10 @@ def recognize(hand_landmarks):
         (index_tip.x, index_tip.y), 
         (index_mcp.x, index_mcp.y)
     )
+    pinky_dist = calculate_distance(
+        (pinky_tip.x, pinky_tip.y),
+        (pinky_mcp.x, pinky_mcp.y)
+    )
     thumb_to_index_dist = calculate_distance(
         (thumb_ip.x, thumb_ip.y),
         (index_mcp.x, index_mcp.y)
@@ -58,22 +65,27 @@ def recognize(hand_landmarks):
     # 1. Jump
     if thumb_to_index_dist < 0.05 and index_dist > 0.1:
         return "Jump"
+    # 2. None
     if thumb_to_index_dist < 0.05 and index_dist < 0.1:
-        return "None"
-    # 2. Jump-Left
+        # 3. Restart
+        if pinky_dist > 0.1:
+            return "Restart"
+    
+        return "None1"
+    # 3. Jump-Left
     elif index_dist > 0.1 and thumb_tip.x < thumb_mcp.x:
         return "Jump-Left"
-    # 3. Jump-Right
+    # 4. Jump-Right
     elif index_dist > 0.1 and thumb_tip.x > thumb_mcp.x:
         return "Jump-Right"
-    # 4. Move-Left
+    # 5. Move-Left
     elif index_dist < 0.1 and thumb_tip.x < thumb_mcp.x:
         return "Move-Left"
-    # 5. Move-Right
+    # 6. Move-Right
     elif index_dist < 0.1 and thumb_tip.x > thumb_mcp.x:
         return "Move-Right"
     else:
-        return "None"
+        return "None2"
 
 def getCoord(landmark_string):
     xCoord = []
@@ -254,6 +266,17 @@ def main():
                                 if not a:
                                     pyautogui.keyDown("a")
                                     a = True
+                            elif gesture == "Restart":
+                                if w:
+                                    pyautogui.keyUp("w")
+                                    w = False
+                                if a:
+                                    pyautogui.keyUp("a")
+                                    a = False
+                                if d:
+                                    pyautogui.keyUp("d")
+                                    d = False
+                                pyautogui.press("r")
                             else:
                                 if w:
                                     pyautogui.keyUp("w")
@@ -320,6 +343,17 @@ def main():
                                 if not left:
                                     pyautogui.keyDown("left")
                                     left = True
+                            elif gesture == "Restart":
+                                if up:
+                                    pyautogui.keyUp("up")
+                                    up = False
+                                if left:
+                                    pyautogui.keyUp("left")
+                                    left = False
+                                if right:
+                                    pyautogui.keyUp("right")
+                                    right = False
+                                pyautogui.press("r")
                             else:
                                 if up:
                                     pyautogui.keyUp("up")
